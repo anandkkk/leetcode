@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/longest-substring-without-repeating-characters/
+//https://leetcode.com/problems/longest-substring-without-repeating-characters/
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         int[] indexArry = new int[130];
@@ -6,18 +6,15 @@ class Solution {
         int index = 1;
         int currentIndex = 1;
         int length = 0;
-        int previousIndex = 0;
         for(char c:s.toCharArray()){
-                previousIndex = indexArry[c];
-                if(index <= previousIndex){
+                if(index <= indexArry[c]){
                     length = currentIndex - index;
                     if(length > maxLength ){
                         maxLength = length;
                     }
-                    index = previousIndex + 1;
+                    index = indexArry[c] + 1;
                 }
-                indexArry[c] = currentIndex;
-                currentIndex++;
+                indexArry[c] = currentIndex++;
             }
             length = currentIndex - index;
             if( length > maxLength){
