@@ -1,7 +1,7 @@
 class Solution {
 
     public String generateString(String s){
-        char[] buffer = new char[2*s.length()+1];
+        char[] buffer = new char[2*s.length()+2];
         int j = 0;
         for(int i=0;i<s.length();i++){
             buffer[j++] = '#';
@@ -12,27 +12,34 @@ class Solution {
     }
 
     public String longestPalindrome(String s) {
-
+            
             String newString = generateString(s);
             int length = newString.length();
             int[] p = new int[length];
             int maxValue = -1;
             int maxIndex = -1;
-
-            for(int i=0;i<length;i++){
-                int center = i;
-                int l = center;
-                int r = center;
-                while(l>=0 && r<=length-1 && (newString.charAt(l) == newString.charAt(r))){
+            int l = 1; 
+            int r = 1;
+            
+            for(int i=1;i<length;i++){
+                // If say we are in bounded box, then it means in the smaller box there is a palindrome to the level to the left as to the right
+                p[i] = Math.max(0, Math.min(r - i, p[l + (r - i)]));
+                int right = i+p[i];
+                int left = i - p[i];
+                while(left > 0 && (right<length)  && newString.charAt(left) == newString.charAt(right)){
                         p[i]++;
-                        r++;
-                        l--;
+                        left--;
+                        right++;
                 }
-
+                if(i + p[i] > r) {
+                   l = i - p[i];
+                    r = i + p[i];
                 if(p[i]> maxValue){
                     maxIndex = i;
                     maxValue = p[i];
                 }
+                }
+
             }
 
             return newString.substring(maxIndex-p[maxIndex]+1,maxIndex+p[maxIndex]).replace("#","");
