@@ -6,26 +6,24 @@ class Solution {
         int length = s.length();
         char[] newStrA = new char[length];
         int index = 0;
-        int multiplier = (numRows-1)*2;
+        int multiplier = (numRows-1)<<1;
 
         for(int i=0;i<numRows;i++){
-            int currentIndex = 0;
             int nextIndex = i;
             boolean isEnd = (i==0) || (i==numRows-1);
             if(isEnd){
                 while(nextIndex<length){
-                    currentIndex =  nextIndex;
+                    newStrA[index++] = s.charAt(nextIndex);
                     nextIndex = nextIndex + multiplier;
-                    newStrA[index++] = s.charAt(currentIndex);
                 }    
             }else{
                 int previousIndex = -i;
-                int rotation = 0;
+                int currentIndex = 0;
                 while(nextIndex<length){
-                    currentIndex = multiplier*(rotation++) - previousIndex;
+                    newStrA[index++] = s.charAt(nextIndex);
+                    currentIndex = nextIndex;
                     nextIndex = previousIndex + multiplier;
                     previousIndex = currentIndex;
-                    newStrA[index++] = s.charAt(currentIndex);
                 }
             }
         }
